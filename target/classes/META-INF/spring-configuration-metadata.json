@@ -1,0 +1,41 @@
+{
+  "groups": [
+    {
+      "name": "app.loader",
+      "type": "com.example.msloader.config.LoaderProperties",
+      "sourceType": "com.example.msloader.config.LoaderProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.loader.in-memory-buffer-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": 10000
+    },
+    {
+      "name": "app.loader.listener-concurrency",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": 12
+    },
+    {
+      "name": "app.loader.topics",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.example.msloader.config.LoaderProperties"
+    },
+    {
+      "name": "app.loader.writer-batch-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": 200
+    },
+    {
+      "name": "app.loader.writer-delay-ms",
+      "type": "java.lang.Long",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": 250
+    }
+  ],
+  "hints": []
+}

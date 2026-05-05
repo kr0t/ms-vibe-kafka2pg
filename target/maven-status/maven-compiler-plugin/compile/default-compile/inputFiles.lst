@@ -1,0 +1,10 @@
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/MsSpringLoaderApplication.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/config/KafkaConsumerConfig.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/config/LoaderProperties.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/domain/BufferedKafkaMessage.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/domain/KafkaMessageEntity.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/repository/KafkaMessageRepository.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/service/FairTopicBuffer.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/service/KafkaHeaderSerializer.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/service/KafkaMessageListener.java
+/Users/victor/dev/ms-sping-loader/src/main/java/com/example/msloader/service/KafkaMessagePersistenceService.java
