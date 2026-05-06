@@ -1,7 +1,0 @@
-com/example/msloader/service/KafkaHeaderSerializerTest.class
-com/example/msloader/KafkaToPostgresIntegrationTest.class
-com/example/msloader/service/KafkaMessagePersistenceServiceTest.class
-com/example/msloader/config/KafkaConsumerConfigTest.class
-com/example/msloader/service/FairTopicBufferTest.class
-com/example/msloader/service/KafkaMessagePersistenceServiceTest$1.class
-com/example/msloader/service/KafkaMessageListenerTest.class
