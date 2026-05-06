@@ -18,7 +18,7 @@ spring:
     init:
       mode: always
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 127.0.0.1:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -35,3 +35,8 @@ app:
     writer-batch-size: 200
     writer-delay-ms: 250
     in-memory-buffer-capacity: 10000
+    query-type: LOAD
+    status: NEW
+    namespace: ${APP_NAMESPACE:local}
+    pod-name: ${HOSTNAME:local-pod}
+    description:

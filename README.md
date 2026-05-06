@@ -67,7 +67,27 @@ docker compose up -d
 Для локального запуска приложения укажите:
 
 - `spring.datasource.url=jdbc:postgresql://localhost:5432/messages`
-- `spring.kafka.bootstrap-servers=localhost:9092`
+- `spring.kafka.bootstrap-servers=127.0.0.1:9092`
+
+## Генерация сообщений через kcat
+
+Для генерации тестового входящего потока используются `kcat` и `make`.
+
+Примеры:
+
+```bash
+make generate-message
+make generate-messages COUNT=50 DELAY_MS=200
+make generate-messages-fast COUNT=100 TOPICS=topic-1,topic-3
+```
+
+Если Kafka поднята локально через `docker compose`, но `localhost:9092` уходит в IPv6 и `kcat` пишет `Connect to ipv6#[::1]:9092 failed`, используйте `127.0.0.1:9092`. В `make`, `application.yml` и `advertised.listeners` это уже выставлено как значение по умолчанию.
+
+Что отправляется в Kafka:
+
+- `key` в формате `tech-key-N`
+- `headers`: `correlationId`, `source`, `queryType`, `status`, `producedAt`
+- `value`: JSON с `eventId`, `sequence`, `topic`, `source`, `queryType`, `status`, `producedAt`, `payload`
 
 ## Таблица
 

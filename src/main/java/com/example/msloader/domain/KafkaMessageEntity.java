@@ -1,115 +1,167 @@
 package com.example.msloader.domain;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "kafka_messages")
+@Table(name = "tech_messages", schema = "ekld")
 public class KafkaMessageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tech_messages_seq")
+    @SequenceGenerator(name = "tech_messages_seq", sequenceName = "ekld.tech_messages_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "topic_name", nullable = false, length = 255)
-    private String topicName;
+    @Column(name = "msg_key", nullable = false)
+    private String msgKey;
 
-    @Column(name = "partition_id", nullable = false)
-    private int partitionId;
+    @Column(name = "value_json", nullable = false, columnDefinition = "text")
+    private String valueJson;
 
-    @Column(name = "message_offset", nullable = false)
-    private long messageOffset;
+    @Column(name = "headers_ison", nullable = false, columnDefinition = "text")
+    private String headersIson;
 
-    @Column(name = "message_key")
-    private String messageKey;
+    @Column(name = "topic", nullable = false)
+    private String topic;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "message_value", nullable = false, columnDefinition = "jsonb")
-    private JsonNode messageValue;
+    @Column(name = "query_type", nullable = false)
+    private String queryType;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "headers_json", nullable = false, columnDefinition = "jsonb")
-    private JsonNode headersJson;
+    @Column(name = "status", nullable = false, length = 20)
+    private String status;
 
-    @Column(name = "kafka_timestamp", nullable = false)
-    private Instant kafkaTimestamp;
+    @Column(name = "kafka_dttm", nullable = false)
+    private Instant kafkaDttm;
 
-    @Column(name = "saved_at", nullable = false)
-    private Instant savedAt;
+    @Column(name = "start_dttm")
+    private Instant startDttm;
+
+    @Column(name = "complete_dttm")
+    private Instant completeDttm;
+
+    @Column(name = "locked_at")
+    private Instant lockedAt;
+
+    @Column(name = "namespace")
+    private String namespace;
+
+    @Column(name = "pod_name")
+    private String podName;
+
+    @Column(name = "description")
+    private String description;
 
     public Long getId() {
         return id;
     }
 
-    public String getTopicName() {
-        return topicName;
+    public String getMsgKey() {
+        return msgKey;
     }
 
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
+    public void setMsgKey(String msgKey) {
+        this.msgKey = msgKey;
     }
 
-    public int getPartitionId() {
-        return partitionId;
+    public String getValueJson() {
+        return valueJson;
     }
 
-    public void setPartitionId(int partitionId) {
-        this.partitionId = partitionId;
+    public void setValueJson(String valueJson) {
+        this.valueJson = valueJson;
     }
 
-    public long getMessageOffset() {
-        return messageOffset;
+    public String getHeadersIson() {
+        return headersIson;
     }
 
-    public void setMessageOffset(long messageOffset) {
-        this.messageOffset = messageOffset;
+    public void setHeadersIson(String headersIson) {
+        this.headersIson = headersIson;
     }
 
-    public String getMessageKey() {
-        return messageKey;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setMessageKey(String messageKey) {
-        this.messageKey = messageKey;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
-    public JsonNode getMessageValue() {
-        return messageValue;
+    public String getQueryType() {
+        return queryType;
     }
 
-    public void setMessageValue(JsonNode messageValue) {
-        this.messageValue = messageValue;
+    public void setQueryType(String queryType) {
+        this.queryType = queryType;
     }
 
-    public JsonNode getHeadersJson() {
-        return headersJson;
+    public String getStatus() {
+        return status;
     }
 
-    public void setHeadersJson(JsonNode headersJson) {
-        this.headersJson = headersJson;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Instant getKafkaTimestamp() {
-        return kafkaTimestamp;
+    public Instant getKafkaDttm() {
+        return kafkaDttm;
     }
 
-    public void setKafkaTimestamp(Instant kafkaTimestamp) {
-        this.kafkaTimestamp = kafkaTimestamp;
+    public void setKafkaDttm(Instant kafkaDttm) {
+        this.kafkaDttm = kafkaDttm;
     }
 
-    public Instant getSavedAt() {
-        return savedAt;
+    public Instant getStartDttm() {
+        return startDttm;
     }
 
-    public void setSavedAt(Instant savedAt) {
-        this.savedAt = savedAt;
+    public void setStartDttm(Instant startDttm) {
+        this.startDttm = startDttm;
+    }
+
+    public Instant getCompleteDttm() {
+        return completeDttm;
+    }
+
+    public void setCompleteDttm(Instant completeDttm) {
+        this.completeDttm = completeDttm;
+    }
+
+    public Instant getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(Instant lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getPodName() {
+        return podName;
+    }
+
+    public void setPodName(String podName) {
+        this.podName = podName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -26,6 +26,16 @@ public class LoaderProperties {
     @Min(100)
     private int inMemoryBufferCapacity = 10_000;
 
+    private String queryType = "LOAD";
+
+    private String status = "NEW";
+
+    private String namespace = "local";
+
+    private String podName = "local-pod";
+
+    private String description;
+
     public List<String> getTopics() {
         return topics;
     }
@@ -64,5 +74,45 @@ public class LoaderProperties {
 
     public void setInMemoryBufferCapacity(int inMemoryBufferCapacity) {
         this.inMemoryBufferCapacity = inMemoryBufferCapacity;
+    }
+
+    public String getQueryType() {
+        return queryType;
+    }
+
+    public void setQueryType(String queryType) {
+        this.queryType = queryType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getPodName() {
+        return podName;
+    }
+
+    public void setPodName(String podName) {
+        this.podName = podName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

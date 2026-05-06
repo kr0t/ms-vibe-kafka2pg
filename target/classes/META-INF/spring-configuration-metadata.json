@@ -8,6 +8,11 @@
   ],
   "properties": [
     {
+      "name": "app.loader.description",
+      "type": "java.lang.String",
+      "sourceType": "com.example.msloader.config.LoaderProperties"
+    },
+    {
       "name": "app.loader.in-memory-buffer-capacity",
       "type": "java.lang.Integer",
       "sourceType": "com.example.msloader.config.LoaderProperties",
@@ -18,6 +23,30 @@
       "type": "java.lang.Integer",
       "sourceType": "com.example.msloader.config.LoaderProperties",
       "defaultValue": 12
+    },
+    {
+      "name": "app.loader.namespace",
+      "type": "java.lang.String",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": "local"
+    },
+    {
+      "name": "app.loader.pod-name",
+      "type": "java.lang.String",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": "local-pod"
+    },
+    {
+      "name": "app.loader.query-type",
+      "type": "java.lang.String",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": "LOAD"
+    },
+    {
+      "name": "app.loader.status",
+      "type": "java.lang.String",
+      "sourceType": "com.example.msloader.config.LoaderProperties",
+      "defaultValue": "NEW"
     },
     {
       "name": "app.loader.topics",

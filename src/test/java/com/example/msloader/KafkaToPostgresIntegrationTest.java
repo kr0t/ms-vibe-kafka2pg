@@ -114,17 +114,20 @@ class KafkaToPostgresIntegrationTest {
                     assertThat(messages).hasSize(4);
 
                     Set<String> persistedTopics = messages.stream()
-                            .map(KafkaMessageEntity::getTopicName)
+                            .map(KafkaMessageEntity::getTopic)
                             .collect(Collectors.toSet());
 
                     assertThat(persistedTopics).containsExactlyInAnyOrderElementsOf(TOPICS);
                     assertThat(messages)
                             .allSatisfy(message -> {
-                                assertThat(message.getMessageKey()).startsWith("key-");
-                                assertThat(message.getHeadersJson()).isNotNull();
-                                assertThat(message.getMessageValue()).isNotNull();
-                                assertThat(message.getKafkaTimestamp()).isNotNull();
-                                assertThat(message.getSavedAt()).isNotNull();
+                                assertThat(message.getMsgKey()).startsWith("key-");
+                                assertThat(message.getHeadersIson()).isNotBlank();
+                                assertThat(message.getValueJson()).isNotBlank();
+                                assertThat(message.getKafkaDttm()).isNotNull();
+                                assertThat(message.getStartDttm()).isNotNull();
+                                assertThat(message.getCompleteDttm()).isNotNull();
+                                assertThat(message.getQueryType()).isEqualTo("LOAD");
+                                assertThat(message.getStatus()).isEqualTo("NEW");
                             });
                 });
     }

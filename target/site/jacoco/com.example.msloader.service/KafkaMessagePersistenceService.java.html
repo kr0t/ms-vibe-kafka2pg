@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KafkaMessagePersistenceService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-spring-loader</a> &gt; <a href="index.source.html" class="el_package">com.example.msloader.service</a> &gt; <span class="el_source">KafkaMessagePersistenceService.java</span></div><h1>KafkaMessagePersistenceService.java</h1><pre class="source lang-java linenums">package com.example.msloader.service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.msloader.config.LoaderProperties;
+import com.example.msloader.domain.BufferedKafkaMessage;
+import com.example.msloader.domain.KafkaMessageEntity;
+import com.example.msloader.repository.KafkaMessageRepository;
+import jakarta.transaction.Transactional;
+import java.time.Instant;
+import java.util.Comparator;
+import java.util.List;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+@Service
+public class KafkaMessagePersistenceService {
+
+    private final FairTopicBuffer fairTopicBuffer;
+    private final KafkaMessageRepository kafkaMessageRepository;
+    private final LoaderProperties loaderProperties;
+    private final ObjectMapper objectMapper;
+
+    public KafkaMessagePersistenceService(
+            FairTopicBuffer fairTopicBuffer,
+            KafkaMessageRepository kafkaMessageRepository,
+            LoaderProperties loaderProperties,
+<span class="fc" id="L28">            ObjectMapper objectMapper) {</span>
+<span class="fc" id="L29">        this.fairTopicBuffer = fairTopicBuffer;</span>
+<span class="fc" id="L30">        this.kafkaMessageRepository = kafkaMessageRepository;</span>
+<span class="fc" id="L31">        this.loaderProperties = loaderProperties;</span>
+<span class="fc" id="L32">        this.objectMapper = objectMapper;</span>
+<span class="fc" id="L33">    }</span>
+
+    @Scheduled(fixedDelayString = &quot;${app.loader.writer-delay-ms}&quot;)
+    @Transactional
+    public void persistBufferedMessages() {
+<span class="fc" id="L38">        List&lt;BufferedKafkaMessage&gt; batch = fairTopicBuffer.drainFairBatch(loaderProperties.getWriterBatchSize());</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (batch.isEmpty()) {</span>
+<span class="fc" id="L40">            return;</span>
+        }
+
+<span class="fc" id="L43">        Instant savedAt = Instant.now();</span>
+<span class="fc" id="L44">        List&lt;KafkaMessageEntity&gt; entities = batch.stream()</span>
+<span class="fc" id="L45">                .sorted(Comparator.comparing(BufferedKafkaMessage::kafkaTimestamp)</span>
+<span class="fc" id="L46">                        .thenComparing(BufferedKafkaMessage::bufferedAt))</span>
+<span class="fc" id="L47">                .map(message -&gt; toEntity(message, savedAt))</span>
+<span class="fc" id="L48">                .toList();</span>
+
+<span class="fc" id="L50">        kafkaMessageRepository.saveAll(entities);</span>
+<span class="fc" id="L51">    }</span>
+
+    private KafkaMessageEntity toEntity(BufferedKafkaMessage message, Instant savedAt) {
+<span class="fc" id="L54">        KafkaMessageEntity entity = new KafkaMessageEntity();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        entity.setMsgKey(message.messageKey() == null ? &quot;&quot; : message.messageKey());</span>
+<span class="fc" id="L56">        entity.setValueJson(writeJson(message.messageValue()));</span>
+<span class="fc" id="L57">        entity.setHeadersIson(writeJson(message.headersJson()));</span>
+<span class="fc" id="L58">        entity.setTopic(message.topicName());</span>
+<span class="fc" id="L59">        entity.setQueryType(loaderProperties.getQueryType());</span>
+<span class="fc" id="L60">        entity.setStatus(loaderProperties.getStatus());</span>
+<span class="fc" id="L61">        entity.setKafkaDttm(message.kafkaTimestamp());</span>
+<span class="fc" id="L62">        entity.setStartDttm(message.bufferedAt());</span>
+<span class="fc" id="L63">        entity.setCompleteDttm(savedAt);</span>
+<span class="fc" id="L64">        entity.setLockedAt(null);</span>
+<span class="fc" id="L65">        entity.setNamespace(loaderProperties.getNamespace());</span>
+<span class="fc" id="L66">        entity.setPodName(loaderProperties.getPodName());</span>
+<span class="fc" id="L67">        entity.setDescription(loaderProperties.getDescription());</span>
+<span class="fc" id="L68">        return entity;</span>
+    }
+
+    private String writeJson(Object value) {
+        try {
+<span class="fc" id="L73">            return objectMapper.writeValueAsString(value);</span>
+<span class="fc" id="L74">        } catch (JsonProcessingException exception) {</span>
+<span class="fc" id="L75">            throw new IllegalStateException(&quot;Cannot serialize message payload for database&quot;, exception);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

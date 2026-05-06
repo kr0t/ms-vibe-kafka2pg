@@ -1,6 +1,7 @@
 package com.example.msloader.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.msloader.config.LoaderProperties;
 import com.example.msloader.domain.BufferedKafkaMessage;
@@ -48,6 +49,26 @@ class FairTopicBufferTest {
         assertThat(batch)
                 .extracting(BufferedKafkaMessage::topicName)
                 .containsExactly("topic-1", "topic-2", "topic-3", "topic-4", "topic-1");
+    }
+
+    @Test
+    void shouldReturnCurrentBufferSize() throws Exception {
+        FairTopicBuffer buffer = createBuffer(List.of("topic-1", "topic-2"));
+
+        buffer.offer(message("topic-1", 1));
+        buffer.offer(message("topic-2", 2));
+        buffer.offer(message("topic-2", 3));
+
+        assertThat(buffer.size()).isEqualTo(3);
+    }
+
+    @Test
+    void shouldRejectMessagesForUnknownTopic() {
+        FairTopicBuffer buffer = createBuffer(List.of("topic-1"));
+
+        assertThatThrownBy(() -> buffer.offer(message("topic-2", 1)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Topic is not configured");
     }
 
     private FairTopicBuffer createBuffer(List<String> topics) {

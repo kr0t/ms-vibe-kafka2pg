@@ -1,2 +1,6 @@
 /Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/KafkaToPostgresIntegrationTest.java
+/Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/config/KafkaConsumerConfigTest.java
 /Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/service/FairTopicBufferTest.java
+/Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/service/KafkaHeaderSerializerTest.java
+/Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/service/KafkaMessageListenerTest.java
+/Users/victor/dev/ms-sping-loader/src/test/java/com/example/msloader/service/KafkaMessagePersistenceServiceTest.java
